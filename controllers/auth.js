@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import "dotenv/config";
 import { generateTempOTP, verifyTempOTP } from "../services/otpService.js";
+import { sendOTP } from "../services/emailService.js";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -50,7 +52,7 @@ export const verify_otp = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found." });
     }
-    const isValid = verifyTempOTP(userResponse, OTP);
+    const isValid = await verifyTempOTP(userResponse, OTP);
     if (!isValid) {
       return res.status(400).json({
         success: false,
@@ -73,11 +75,18 @@ export const verify_otp = async (req, res) => {
       subBranch: userResponse.subBranch,
     };
     res.json({
+      success: true,
       message: "Login successful",
       token,
       user: userData,
     });
-  } catch (e) {}
+  } catch (e) {
+    console.error("Error in verify_otp:", e);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error. Please try again.",
+    });
+  }
 };
 
 export const signup = async (req, res) => {

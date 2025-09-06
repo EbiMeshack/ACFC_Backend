@@ -18,7 +18,7 @@ export const loginValidation = [
 
 export const otpValidation = [
   body("OTP").notEmpty().withMessage("OTP is required"),
-  body("userID").isEmpty().withMessage("User ID is required."),
+  body("userID").notEmpty().withMessage("User ID is required."),
 ];
 
 // Validation rules for signup
