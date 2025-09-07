@@ -6,9 +6,25 @@ import {
   handleValidationErrors,
   otpValidation,
 } from "../middleware/validation.js";
+import {
+  emailLimiter,
+  otpVerificationLimiter,
+} from "../middleware/rateLimiter.js";
 
 export const router = Router();
 
-router.post("/login", loginValidation, handleValidationErrors, login);
-router.post("/verify-otp", otpValidation, handleValidationErrors, verify_otp);
+router.post(
+  "/login",
+  emailLimiter,
+  loginValidation,
+  handleValidationErrors,
+  login
+);
+router.post(
+  "/verify-otp",
+  otpVerificationLimiter,
+  otpValidation,
+  handleValidationErrors,
+  verify_otp
+);
 router.post("/signup", signupValidation, handleValidationErrors, signup);

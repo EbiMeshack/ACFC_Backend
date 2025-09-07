@@ -24,4 +24,26 @@ const otpVerificationLimiter = rateLimit({
   trustProxy: false,
 });
 
-export { emailLimiter, otpVerificationLimiter };
+const standardLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 100,
+  message: {
+    message: "Too many requests. Please slow down and try again later.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  trustProxy: false,
+});
+
+const strictLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 20,
+  message: {
+    message: "Too many sensitive requests. Please wait before trying again.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  trustProxy: false,
+});
+
+export { emailLimiter, otpVerificationLimiter, standardLimiter, strictLimiter };
