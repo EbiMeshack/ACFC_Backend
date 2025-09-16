@@ -36,7 +36,7 @@ export const login = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log("Error Creating User:", e);
+    console.log("Error logging in User:", e);
     return res
       .status(500)
       .json({ sucess: false, message: "Internal server error" });
