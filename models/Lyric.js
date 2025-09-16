@@ -54,6 +54,6 @@ lyricSchema.index(
   }
 );
 
-const Lyric = mongoose.model("tamil_christian_songs", lyricSchema);
+const Lyric = mongoose.model("Lyric", lyricSchema);
 
 export { lyricSchema, Lyric };

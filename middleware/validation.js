@@ -52,6 +52,24 @@ export const signupValidation = [
     .withMessage("Password is required"),
 ];
 
+export const eventValidation = [
+  body("name").notEmpty().withMessage("name is required"),
+  body("description")
+    .notEmpty()
+    .withMessage("description is required.")
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Description must be at least 2 characters"),
+  body("time").notEmpty().withMessage("time is required."),
+  body("date")
+    .notEmpty()
+    .withMessage("date is required.")
+    .isISO8601({ strict: true })
+    .withMessage("Please provide a valid ISO date format")
+    .toDate(),
+  body("verses").notEmpty().withMessage("verses is required."),
+  body("songs").notEmpty().withMessage("songs is required."),
+];
+
 // Middleware to handle validation errors
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
